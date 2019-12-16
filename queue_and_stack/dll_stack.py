@@ -17,7 +17,8 @@ class Stack:
             return self.storage.remove_from_tail()
 
     def len(self):
-        if self.storage.length is not 0:
-            return self.storage.length
+        self.size = self.storage.length
+        if self.size != 0:
+            return self.size
         else:
             return 0
