@@ -10,11 +10,11 @@ class LRUCache:
     to every node stored in the cache.
     """
 
-    def __init__(self, dll, dic={}, size=0, limit=10):
+    def __init__(self, limit=10):
         self.limit = limit
-        self.size = size
-        self.dll = DoublyLinkedList()
-        self.dic = dic
+        self.size = 0
+        self.order = DoublyLinkedList()
+        self.storage = dict()
 
     """
     Retrieves the value associated with the given key. Also
@@ -25,10 +25,10 @@ class LRUCache:
     """
 
     def get(self, key):
-        if key in self.dic:
-            node = self.dic[key]
-            self.dll.move_to_end(node)
-            return self.dll.tail
+        if key in self.storage:
+            node = self.storage[key]
+            self.order.move_to_end(node)
+            return node.value[1]
         else:
             return None
 
@@ -44,11 +44,20 @@ class LRUCache:
     """
 
     def set(self, key, value):
-        node = self.dll.add_to_tail(value)
-        if key in self.dic:
-            self.dic[key] = node
-        self.dic[key] = node
+        if key in self.storage:
+            node = self.storage[key]
+            node.value = (key, value)
+            self.order.move_to_end(node)
+            return
         if self.size == self.limit:
-            self.dll.remove_from_head()
-        else:
-            self.size += 1
+            del self.storage[self.order.head.value[0]]
+            self.order.remove_from_head()
+            self.size -= 1
+        # Check and see if value is in cache
+
+        # If the key is in the cache, move it the front and update value
+
+        # If not, add it to the front of the cache
+        self.order.add_to_tail((key, value))
+        self.storage[key] = self.order.tail
+        self.size += 1
