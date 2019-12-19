@@ -10,43 +10,41 @@ class BinarySearchTree:
     # Insert the given value into the tree
 
     def insert(self, value):
-        # If inserting we must already have a tree/root
-        # if value is less than self.value go left, make a new tree/node if empty, otherwise
-        def compare_values(value):
-            if value < self.value:
-                if self.left == None:
-                    self.left = BinarySearchTree(value)
-                elif self.left.value < value:
-                    self.left.value = value
-                    return compare_values(self.left.value)
-            elif value >= self.value:
-                if self.left == None:
-                    self.left = BinarySearchTree(value)
-                elif self.right.value > value:
-                    self.right.value = value
-                    return compare_values(self.right.value)
-
         if value < self.value:
             if self.left == None:
                 self.left = BinarySearchTree(value)
             else:
-                compare_values(value)
+                self.left.insert(value)
         elif value >= self.value:
             if self.right == None:
                 self.right = BinarySearchTree(value)
             else:
-                compare_values(value)
+                self.right.insert(value)
 
         # keep going (recursion)
         # if greater than or equal to then go right, make a new tree/node if empty, otherwise
         # keep going.
+
     # Return True if the tree contains the value
     # False if it does not
 
     def contains(self, target):
         # if target == self.value, return it
         # go left or right based on smaller or bigger
-        pass
+        if target != self.value:
+            if target < self.value:
+                if self.left:
+                    return self.left.contains(target)
+                else:
+                    return False
+            elif target >= self.value:
+                if self.right:
+                    return self.right.contains(target)
+                else:
+                    return False
+        else:
+            return self.value
+
     # Return the maximum value found in the tree
 
     def get_max(self):
