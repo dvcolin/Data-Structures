@@ -11,12 +11,12 @@ class BinarySearchTree:
 
     def insert(self, value):
         if value < self.value:
-            if self.left == None:
+            if self.left is None:
                 self.left = BinarySearchTree(value)
             else:
                 self.left.insert(value)
         elif value >= self.value:
-            if self.right == None:
+            if self.right is None:
                 self.right = BinarySearchTree(value)
             else:
                 self.right.insert(value)
@@ -67,20 +67,48 @@ class BinarySearchTree:
     # Hint:  Use a recursive, depth first traversal
 
     def in_order_print(self, node):
-        pass
-    # Print the value of every node, starting with the given node,
-    # in an iterative breadth first traversal
+        # Recurse through self.left values until reaching the end
+        if self.left:
+            self.left.in_order_print(self.left)
+        # Print all left values
+        print(self.value)
+        # Print all right values
+        if self.right:
+            self.right.in_order_print(self.right)
+
+        # Print the value of every node, starting with the given node,
+        # in an iterative breadth first traversal
 
     def bft_print(self, node):
-        pass
-    # Print the value of every node, starting with the given node,
-    # in an iterative depth first traversal
+        queue = Queue()
+        queue.enqueue(node)
+        while queue.size > 0:
+            removed = queue.dequeue()
+            print(removed.value)
+            if removed.left:
+                queue.enqueue(removed.left)
+            if removed.right:
+                queue.enqueue(removed.right)
+
+        # Print the value of every node, starting with the given node,
+        # in an iterative depth first traversal
 
     def dft_print(self, node):
-        pass
-    # STRETCH Goals -------------------------
-    # Note: Research may be required
-    # Print In-order recursive DFT
+        # Create a new stack
+        stack = Stack()
+        # Put root in the stack
+        stack.push(node)
+
+        while stack.size > 0:
+            removed = stack.pop()
+            print(removed.value)
+            if removed.left:
+                stack.push(removed.left)
+            if removed.right:
+                stack.push(removed.right)
+            # STRETCH Goals -------------------------
+            # Note: Research may be required
+            # Print In-order recursive DFT
 
     def pre_order_dft(self, node):
         pass
